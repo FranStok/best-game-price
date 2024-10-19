@@ -1,6 +1,8 @@
 import 'package:arquitectura/core/router/app_routes.dart';
 import 'package:arquitectura/core/service_locator/service_locator.dart';
 import 'package:arquitectura/core/themes/app_theme.dart';
+import 'package:arquitectura/core/util/either.dart';
+import 'package:arquitectura/domain/responses/test_response.dart';
 import 'package:arquitectura/presentation/error_route.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -50,12 +52,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   void _incrementCounter() async{
-      try{
-        final result=await ServiceLocator().testRepository.test();
-        print(result);
-      }on DioException catch(e){
-        print(e);
-      }
+      
+    final Either<TestResponse?> result = await ServiceLocator().testRepository.test()..when(right: (data) {
+      print(data);
+    }, left: (error) {
+      print("Errror $error");
+    });
+   
     setState(() {
       _counter++;
 
