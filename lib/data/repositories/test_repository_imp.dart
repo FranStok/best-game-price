@@ -1,6 +1,9 @@
 
+import 'dart:io';
+
+import 'package:arquitectura/core/apis/dio/http_future.dart';
 import 'package:arquitectura/core/service_locator/service_locator.dart';
-import 'package:arquitectura/core/util/either.dart';
+import 'package:arquitectura/core/util/result.dart';
 import 'package:arquitectura/data/services/test_service.dart';
 import 'package:arquitectura/domain/repositories/test_repository.dart';
 import 'package:arquitectura/domain/responses/test_response.dart';
@@ -13,10 +16,13 @@ class TestRepositoryImp implements TestRepository {
   TestRepositoryImp({required TestService testService})
       : _testService = testService;
   @override
-  Future<Either<TestResponse?>>test() async{
-    Either<TestResponse> request=Either(request: _testService.getTasks);
-    await request.makeRequest();
-    return request;
+  Future<HttpFuture<TestResponse>> test() async{
+    try {
+      final result=await _testService.getTasks();
+      return HttpFutureSuccess<TestResponse>(result);
+    } on DioException catch (e) {
+      return HttpFutureFailure<TestResponse>(e);
+    }
   }
 }
 

@@ -9,7 +9,7 @@ final GoRouter _router = GoRouter(
       GoRoute(
         path: AppRoutes.home.path,
         builder: (context, state) {
-          return const MyHomePage(title: 'Flutter Demo Home Page');
+          return const HomePage(title: 'Flutter Demo Home Page');
         },
       ),
       GoRoute(
