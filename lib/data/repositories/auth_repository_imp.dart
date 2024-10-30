@@ -19,4 +19,14 @@ class AuthRepositoryImp implements AuthRepository {
       return FirebaseFutureFailure<UserCredential>(e);
     }
   }
+  @override
+  Future<FirebaseFuture<UserCredential>> login(
+      String mail, String password) async {
+    try {
+      var request = await _authService.login(mail, password);
+      return FirebaseFutureSuccess<UserCredential>(request);
+    } on FirebaseAuthException catch (e) {
+      return FirebaseFutureFailure<UserCredential>(e);
+    }
+  }
 }

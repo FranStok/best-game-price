@@ -1,6 +1,6 @@
 class AppRoutes {
   static const AppRoute home = AppRoute(path: "/home", name: "home");
-  static const AppRoute test = AppRoute(path: "/test", name: "test");
+  static const AppRoute login = AppRoute(path: "/login", name: "login");
 }
 
 class AppRoute {
