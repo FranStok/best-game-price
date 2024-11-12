@@ -1,61 +1,249 @@
 import 'package:arquitectura/core/apis/dio/http_future.dart';
 import 'package:arquitectura/core/service_locator/service_locator.dart';
 import 'package:arquitectura/core/util/result.dart';
+import 'package:arquitectura/core/util/stores.dart';
+import 'package:arquitectura/domain/models/game.dart';
 import 'package:arquitectura/domain/responses/test_response.dart';
+import 'package:arquitectura/presentation/cards/card.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
+class HomePage extends StatelessWidget {
+  const HomePage({
+    super.key,
+  });
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  void apiTest() async{
-      
+  void apiTest() async {
     final response = await ServiceLocator().testRepository.test();
-    response.onResult(left: (e){
+    response.onResult(left: (e) {
       print(e.type);
-    }, right: (response){
+    }, right: (response) {
       print(response.data);
     });
-
-    final reg=await ServiceLocator().authRepository.registration("franciscoastoreca@hotmail.com", "hola");
-    reg.onResult(left: (e){
-      print(e);
-    }, right: (response){
-      print(response.user);
-    });
-  
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.onSurface,
+        leading: Image.asset("images/logo.png"),
       ),
-    
-      floatingActionButton: FloatingActionButton(
-        onPressed: apiTest,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+            GameCard(
+              game: Game(
+                  image:
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNciuS2r-cxd6_ONvVUhIUrJLp_aTS2KhHpg&s",
+                  name: "Dead by Daylight",
+                  storePrices: [
+                    StorePrice(price: 5, store: StoreEnum.steam),
+                    StorePrice(price: 10, store: StoreEnum.epic),
+                    StorePrice(price: 11, store: StoreEnum.microsoft),
+                    StorePrice(price: 5, store: StoreEnum.play)
+                  ]),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
