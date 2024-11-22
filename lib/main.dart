@@ -15,6 +15,8 @@ import 'package:go_router/go_router.dart';
 part 'core/router/app_router.dart';
 
 void main() async {
+  GoRouter.optionURLReflectsImperativeAPIs = true;
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

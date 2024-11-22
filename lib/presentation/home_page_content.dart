@@ -5,6 +5,7 @@ import 'package:arquitectura/core/util/result.dart';
 import 'package:arquitectura/core/util/stores.dart';
 import 'package:arquitectura/domain/models/game.dart';
 import 'package:arquitectura/domain/models/store_price.dart';
+import 'package:arquitectura/domain/models/genre.dart';
 import 'package:arquitectura/domain/responses/custom_game_response.dart';
 import 'package:arquitectura/presentation/cards/card.dart';
 import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
@@ -16,13 +17,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomePageContent extends StatefulWidget {
   const HomePageContent({
     super.key,
-    required this.games,
+    required this.games,  this.selectedGenre, this.search,
   });
 
   @override
   State<HomePageContent> createState() => _HomePageContentState();
 
   final List<Game> games;
+  final Genre? selectedGenre;
+  final String? search;
+
 }
 
 class _HomePageContentState extends State<HomePageContent> {
@@ -166,7 +170,10 @@ class _HomePageContentState extends State<HomePageContent> {
             ),
           ),
           const SizedBox(height: 30),
-          Text('TODOS LOS GENEROS',
+          Text(
+              (widget.selectedGenre != null)
+                  ? "JUEGOS DE ${widget.selectedGenre!.genre!.toUpperCase()}"
+                  : 'TODOS LOS GENEROS',
               style: Theme.of(context).textTheme.labelMedium!),
           const SizedBox(height: 20),
           //CARDS POR GENERO
@@ -174,7 +181,16 @@ class _HomePageContentState extends State<HomePageContent> {
             alignment: WrapAlignment.center,
             spacing: 16,
             runSpacing: 16,
-            children: _games.map((game) => _TinyCard(game: game)).toList(),
+            children: _games
+                .where((game) =>
+                    (widget.selectedGenre == null ||
+                    game.gameGenres.contains(widget.selectedGenre)) &&
+                        (widget.search == null ||
+                            game.name
+                                .toLowerCase()
+                                .contains(widget.search!.toLowerCase())))
+                .map((game) => _TinyCard(game: game))
+                .toList(),
           )
         ],
       ),
@@ -205,10 +221,15 @@ class _TinyCard extends StatelessWidget {
             Image.network(
               game.image!,
               fit: BoxFit.fill,
-              errorBuilder: (context, error, stackTrace) => const SizedBox(
-                height: 250,
-                width: 450,
-              ),
+              errorBuilder: (context, error, stackTrace) => const const SizedBox(
+                
+              height: 250,
+                
+              width: 450,
+              
+              child:
+                  Center(child: Text("La imagen no cargo correctamente")),
+            ),
               height: 250,
               width: 450,
             ),

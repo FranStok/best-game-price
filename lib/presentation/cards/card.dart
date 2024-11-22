@@ -36,21 +36,14 @@ class GameCard extends StatelessWidget {
               Container(
                 height: 355,
                 width: 500,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 15,
-                      spreadRadius: 3,
-                    ),
-                  ],
-                ),
+                
                 child: ClipRRect(
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)),
                   child: Image.network(
                     "https://corsproxy.io/?${game.image!}",
+                    errorBuilder: (context, error, stackTrace) => const Center(child: Text("La imagen no cargo correctamente")),
                     fit: BoxFit.fill,
                   ),
                 ),

@@ -5,6 +5,8 @@ class GamesState with _$GamesState {
   const factory GamesState.initial({
     List<Game>? games,
     List<Genre>? genres,
-    @Default(true) bool isLoading
+    @Default(true) bool isLoading,
+    Genre? selectedGenre,
+    String? search
   }) = _Initial;
 }

@@ -1,5 +1,4 @@
 part of '../../main.dart';
-
 final GoRouter _router = GoRouter(
     initialLocation: AppRoutes.home.path,
     errorBuilder: (context, state) {
