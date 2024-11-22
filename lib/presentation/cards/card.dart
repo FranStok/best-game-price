@@ -132,10 +132,21 @@ int priceSteam=0;
                           //   game: widget.game,
                           //   index: 3,
                           // ),
-                          Text(
-                          "  \$$priceSteam",
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                Stores.getStore(
+                                        StoreEnum.steam)
+                                    .image,
+                                height: 20,
+                                width: 20,
+                              ),
+                              Text(
+                              "  \$$priceSteam",
+                              style: Theme.of(context).textTheme.labelMedium,
+                                                      ),
+                            ],
+                          ),
                           //  Text(
                           // "  \$${(widget.game.gameStores[2].price * (Random().nextInt(1) + 0.5)).toStringAsFixed(2)}",
                           // style: Theme.of(context).textTheme.labelMedium,
@@ -206,11 +217,11 @@ class _GameInfoState extends State<_GameInfo> {
       });
     });
     return Row(children: [
-      // Image.asset(
-      //   Stores.getStore(game.gameStores[index].store).image,
-      //   height: 20,
-      //   width: 20,
-      // ),
+      Image.asset(
+        Stores.getStore(widget.game.gameStores[widget.index].store).image,
+        height: 20,
+        width: 20,
+      ),
       Text(
         "  \$${widget.game.gameStores[widget.index].price}",
         style: Theme.of(context).textTheme.labelMedium,

@@ -321,16 +321,22 @@ class _TinyCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 const SizedBox(width: 30),
-                // Image.asset(
-                //   Stores.getStore(game.gameStores[3].store).image,
-                //   height: 20,
-                //   width: 20,
-                // ),
-                // const SizedBox(width: 12),
-                // Text(
-                //   "\$${game.gameStores[3].price}",
-                //   style: Theme.of(context).textTheme.labelMedium,
-                // ),
+                 Row(
+                            children: [
+                              Image.asset(
+                                Stores.getStore(
+                                        StoreEnum.steam)
+                                    .image,
+                                height: 20,
+                                width: 20,
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                              "0",
+                              style: Theme.of(context).textTheme.labelMedium,
+                                                      ),
+                            ],
+                          ),
               ]),
             ),
           ],
