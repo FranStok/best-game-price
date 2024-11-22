@@ -96,9 +96,26 @@ class HomePage extends StatelessWidget {
                               const SizedBox(width: 8),
                               Text("${state.userCredentials!.user!.email}"),
                               const SizedBox(width: 8),
-                              IconButton(onPressed: (){
-                                BlocProvider.of<SessionCubit>(context).logOut();
-                              }, icon: const Icon(Icons.logout_outlined))
+                              const Padding(
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                child: VerticalDivider(),
+                              ),
+                              const SizedBox(width: 8),
+                              TextButton(
+                                style: const ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.zero)),
+                                onPressed: () {
+                                  BlocProvider.of<SessionCubit>(context)
+                                      .logOut();
+                                },
+                                child: Text("Cerrar sesión",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface)),
+                              )
                             ],
                           );
                   },
