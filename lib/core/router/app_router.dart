@@ -7,15 +7,6 @@ final GoRouter _router = GoRouter(
     routes: [
       GoRoute(
         path: AppRoutes.home.path,
-        // redirect: (context, state) {
-        //   if (BlocProvider.of<SessionCubit>(context)
-        //           .state
-        //           .userCredentials ==
-        //       null) {
-        //     return AppRoutes.login.path;
-        //   }
-        //   return null;
-        // },
         builder: (context, state) {
           return const HomePage(); //TODO PONER REDIRECT DE VUELTA
         },

@@ -32,6 +32,10 @@ class SessionCubit extends Cubit<SessionState> {
     });
   }
 
+  logOut(){
+    emit(state.copyWith(userCredentials: null));
+  }
+
   changeErrorField(FirebaseAuthException? error){
     emit(state.copyWith(requestError: error));
   }

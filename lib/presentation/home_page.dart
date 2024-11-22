@@ -3,6 +3,7 @@ import 'package:arquitectura/main.dart';
 import 'package:arquitectura/presentation/cards/card.dart';
 import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
 import 'package:arquitectura/presentation/home_page_content.dart';
+import 'package:arquitectura/presentation/login/login_cubit/session_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -19,6 +20,13 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
+            bottomNavigationBar: Container(
+              height: 50,
+              color: Theme.of(context).colorScheme.primary,
+              child: const Center(
+                child: Text("Copyrights 2024"),
+              ),
+            ),
             appBar: AppBar(
               iconTheme:
                   IconThemeData(color: Theme.of(context).colorScheme.onSurface),
@@ -57,22 +65,44 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.search_outlined));
                 }),
                 const SizedBox(width: 4),
-                ElevatedButton(
-                    style: ButtonStyle(
-                        shape: const WidgetStatePropertyAll<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8)))),
-                        backgroundColor: WidgetStatePropertyAll<Color>(
-                            Theme.of(context).colorScheme.surface)),
-                    onPressed: () {
-                      context.push(AppRoutes.login.path);
-                    },
-                    child: Text(
-                      "Iniciar sesión",
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface),
-                    )),
+                BlocBuilder<SessionCubit, SessionState>(
+                  builder: (context, state) {
+                    return state.userCredentials?.user == null
+                        ? ElevatedButton(
+                            style: ButtonStyle(
+                                shape: const WidgetStatePropertyAll<
+                                        OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(8)))),
+                                backgroundColor: WidgetStatePropertyAll<Color>(
+                                    Theme.of(context).colorScheme.surface)),
+                            onPressed: () {
+                              context.push(AppRoutes.login.path);
+                            },
+                            child: Text(
+                              "Iniciar sesión",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface),
+                            ))
+                        : Row(
+                            children: [
+                              const Icon(Icons.person),
+                              const SizedBox(width: 8),
+                              Text("${state.userCredentials!.user!.email}"),
+                              const SizedBox(width: 8),
+                              IconButton(onPressed: (){
+                                BlocProvider.of<SessionCubit>(context).logOut();
+                              }, icon: const Icon(Icons.logout))
+                            ],
+                          );
+                  },
+                ),
                 const SizedBox(width: 8),
               ],
             ),
