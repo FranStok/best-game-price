@@ -17,5 +17,3 @@ class Game with _$Game {
 
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
 }
-
-

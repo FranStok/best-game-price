@@ -8,7 +8,7 @@ part 'steam_service.g.dart';
 abstract class SteamService {
   factory SteamService(Dio dio, {String baseUrl}) = _SteamService;
 
-  @GET("https://corsproxy.io/?https://api.steampowered.com/ISteamApps/GetAppList/v2")
+    @GET("https://corsproxy.io/?https://api.steampowered.com/ISteamApps/GetAppList/v2")
   Future<GameListResponse> getGames();
 
   @GET("https://corsproxy.io/?https://store.steampowered.com/api/featured?cc=AR")
@@ -63,3 +63,4 @@ class Applist {
   factory Applist.fromJson(Map<String, dynamic> json) => _$ApplistFromJson(json);
   Map<String, dynamic> toJson() => _$ApplistToJson(this);
 }
+
