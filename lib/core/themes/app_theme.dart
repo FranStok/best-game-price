@@ -11,7 +11,7 @@ class AppTheme{
       onSurface: Color(0xFF66c0f4),
     ),
     textTheme: const TextTheme(
-        labelLarge: TextStyle(color: Color(0Xffc7d5e0), fontSize: 16),
+        labelLarge: TextStyle(color: Color(0Xffc7d5e0), fontSize: 20, fontFamily: 'Roboto'),
         labelMedium: TextStyle(color: Color(0Xffc7d5e0), fontSize: 14),
         labelSmall: TextStyle(color: Color(0Xffc7d5e0), fontSize: 10),
     ),
