@@ -129,31 +129,47 @@ class _HomePageState extends State<HomePage> {
           )),
       drawer: Drawer(
         child: ListView(
-          // padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              // decoration: BoxDecoration(
-              //   color: Theme.of(context).colorScheme.onSurface,
-              // ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
               child: Text(
                 'Generos',
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!
-                    .copyWith(color: Colors.white),
+                    .copyWith(color: Theme.of(context).colorScheme.onSurface),
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Generos'),
-              onTap: () {},
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: ListTile(
+                title: Text('Terror',
+                    style: Theme.of(context).textTheme.labelMedium!),
+                onTap: () {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: ListTile(
+                title: Text('Supervivencia',
+                    style: Theme.of(context).textTheme.labelMedium!),
+                onTap: () {},
+              ),
             ),
           ],
         ),
       ),
       body: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 130),
+            child: Text('DESTACADOS Y RECOMENDADOS',
+                style: Theme.of(context).textTheme.labelMedium!),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -164,7 +180,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 80, left: 20, right: 20, bottom: 20),
+                    top: 10, left: 10, right: 10, bottom: 10),
                 child: SizedBox(
                   height: 355,
                   width: 700,
