@@ -54,15 +54,6 @@ class FeaturedGamesListResponse {
   Map<String, dynamic> toJson() => _$FeaturedGamesListResponseToJson(this);
 }
 
-// @JsonSerializable()
-// class DetailsResponse {
-//   DetailsResponse();
-
-//   factory DetailsResponse.fromJson(Map<String, dynamic> json) =>
-//       _$DetailsResponseFromJson(json);
-//   Map<String, dynamic> toJson() => _$DetailsResponseToJson(this);
-// }
-
 @JsonSerializable()
 class Applist {
   final List<Game> apps;
