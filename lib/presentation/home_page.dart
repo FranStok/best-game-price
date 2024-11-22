@@ -98,7 +98,7 @@ class HomePage extends StatelessWidget {
                               const SizedBox(width: 8),
                               IconButton(onPressed: (){
                                 BlocProvider.of<SessionCubit>(context).logOut();
-                              }, icon: const Icon(Icons.logout))
+                              }, icon: const Icon(Icons.logout_outlined))
                             ],
                           );
                   },
