@@ -25,6 +25,7 @@ class GamesCubit extends Cubit<GamesState> {
       emit(state.copyWith(games: data.data.games));
     });
   }
+
   loadGenres() async {
     final result = await gamesRepository.getGenres();
     result.onResult(left: (e) {
@@ -32,5 +33,9 @@ class GamesCubit extends Cubit<GamesState> {
     }, right: (data) {
       emit(state.copyWith(genres: data.data.genres, isLoading: false));
     });
+  }
+
+  changeSelectedGenre(Genre? genre){
+    emit(state.copyWith(selectedGenre:genre));
   }
 }
