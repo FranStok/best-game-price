@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:arquitectura/core/themes/app_theme.dart';
 import 'package:arquitectura/core/util/stores.dart';
 import 'package:arquitectura/domain/models/game.dart';
@@ -115,6 +117,9 @@ class GameCard extends StatelessWidget {
                           //   game: game,
                           //   index: 3,
                           // ),
+                             Text(
+                          "  \$${(game.gameStores[2].price * (Random().nextInt(1) + 0.5)).toStringAsFixed(2)}",
+                          style: Theme.of(context).textTheme.labelMedium,)
                         ],
                       ),
                       Stack(
