@@ -1,18 +1,12 @@
 import 'dart:async';
-import 'package:arquitectura/core/apis/dio/http_future.dart';
-import 'package:arquitectura/core/service_locator/service_locator.dart';
-import 'package:arquitectura/core/util/result.dart';
+
 import 'package:arquitectura/core/util/stores.dart';
 import 'package:arquitectura/domain/models/game.dart';
 import 'package:arquitectura/domain/models/store_price.dart';
 import 'package:arquitectura/domain/models/genre.dart';
-import 'package:arquitectura/domain/responses/custom_game_response.dart';
 import 'package:arquitectura/presentation/cards/card.dart';
-import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePageContent extends StatefulWidget {
   const HomePageContent({
@@ -35,14 +29,44 @@ class _HomePageContentState extends State<HomePageContent> {
   int _imagenActual = 0;
   Timer? _timer;
   late List<Game> _games;
+  late List<Game> bestOffers;
   final bool _isHovering = false;
 
   @override
   void initState() {
     _games = widget.games;
+    bestOffers=getTop15BestDeals(_games);
     super.initState();
     _startAutoScroll();
   }
+
+  double calculatePriceDifferencePercentage(Game game) {
+  // Obtener los precios de las tiendas
+  List<double> prices = game.gameStores.map((storePrice) => storePrice.price).toList();
+
+  if (prices.isEmpty) return 0.0;
+
+  // Obtener el mejor precio (mínimo) y el peor precio (máximo)
+  double bestPrice = prices.reduce((a, b) => a < b ? a : b);
+  double worstPrice = prices.reduce((a, b) => a > b ? a : b);
+
+  // Calcular la diferencia porcentual
+  return ((worstPrice - bestPrice) / bestPrice) * 100;
+}
+
+List<Game> getTop15BestDeals(List<Game> games) {
+  // Calcular la diferencia porcentual para cada juego y ordenarlos
+  List<Game> sortedGames = List.from(games);
+
+  sortedGames.sort((a, b) {
+    double diffA = calculatePriceDifferencePercentage(a);
+    double diffB = calculatePriceDifferencePercentage(b);
+    return diffB.compareTo(diffA); // Ordenar de mayor a menor diferencia
+  });
+
+  // Retornar los 10 mejores juegos
+  return sortedGames.take(15).toList();
+}
 
   void _startAutoScroll() {
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
@@ -50,7 +74,7 @@ class _HomePageContentState extends State<HomePageContent> {
 
   void _periodicMove(Timer timer) {
     if (!_isHovering) {
-      if (_imagenActual < _games.length - 1) {
+      if (_imagenActual < bestOffers.length - 1) {
         _pageController.nextPage(
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOut,
@@ -70,9 +94,9 @@ class _HomePageContentState extends State<HomePageContent> {
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
     if (_imagenActual == 0) {
       // Si estamos en la primera página, ir a la última
-      _pageController.jumpToPage(_games.length - 1);
+      _pageController.jumpToPage(bestOffers.length - 1);
       setState(() {
-        _imagenActual = _games.length - 1;
+        _imagenActual = bestOffers.length - 1;
       });
     } else {
       _pageController.previousPage(
@@ -85,7 +109,7 @@ class _HomePageContentState extends State<HomePageContent> {
   void _scrollRight() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
-    if (_imagenActual == _games.length - 1) {
+    if (_imagenActual == bestOffers.length - 1) {
       // Si estamos en la última página, volver a la primera
       _pageController.jumpToPage(0);
       setState(() {
@@ -130,7 +154,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   width: 700,
                   child: PageView.builder(
                     controller: _pageController,
-                    itemCount: _games.length,
+                    itemCount: bestOffers.length,
                     onPageChanged: (index) {
                       setState(() {
                         _imagenActual = index;
@@ -138,7 +162,7 @@ class _HomePageContentState extends State<HomePageContent> {
                     },
                     itemBuilder: (context, index) {
                       return Center(
-                        child: GameCard(game: _games[index]),
+                        child: GameCard(game: bestOffers[index]),
                       );
                     },
                   ),
@@ -156,7 +180,7 @@ class _HomePageContentState extends State<HomePageContent> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                _games.length,
+                bestOffers.length,
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 5),

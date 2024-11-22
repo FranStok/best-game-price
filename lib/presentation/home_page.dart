@@ -37,7 +37,6 @@ class HomePage extends StatelessWidget {
                                     .changeSelectedSearch(null)
                                 : BlocProvider.of<GamesCubit>(context)
                                     .changeSelectedSearch(value);
-
                           },
                           trailing: [
                             IconButton(
@@ -136,6 +135,7 @@ class _Drawer extends StatelessWidget {
                 Text("Todos", style: Theme.of(context).textTheme.labelMedium!),
             onTap: () {
               BlocProvider.of<GamesCubit>(context).changeSelectedGenre(null);
+              Scaffold.of(context).closeDrawer();
             },
           ),
           ...state.genres!.map((item) => ListTile(
@@ -145,6 +145,7 @@ class _Drawer extends StatelessWidget {
                 onTap: () {
                   BlocProvider.of<GamesCubit>(context)
                       .changeSelectedGenre(item);
+                  Scaffold.of(context).closeDrawer();
                 },
               ))
         ]
