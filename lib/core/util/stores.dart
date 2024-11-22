@@ -1,12 +1,12 @@
 
 class Stores {
-  static const steam = Store('Steam', "images/steam_logo.png", 1, StoreEnum.steam);
+  static const steam = Store('Steam', "assets/images/steam_logo.png", 1, StoreEnum.steam);
   static const epic =
-      Store('Epic Store', "images/epic_logo.png", 2, StoreEnum.epic);
+      Store('Epic Store', "assets/images/epic_logo.png", 2, StoreEnum.epic);
   static const microsoft =
-      Store('Microsoft store', "images/microsoft_logo.png", 3, StoreEnum.microsoft);
+      Store('Microsoft store', "assets/images/microsoft_logo.png", 3, StoreEnum.microsoft);
   static const play =
-      Store('Play Store', "images/play_logo.png", 4, StoreEnum.play);
+      Store('Play Store', "assets/images/play_logo.png", 4, StoreEnum.play);
 
   static Store getStore(StoreEnum storeEnum) {
     switch (storeEnum) {
