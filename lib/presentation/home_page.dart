@@ -1,7 +1,10 @@
+import 'package:arquitectura/core/router/app_routes.dart';
+import 'package:arquitectura/main.dart';
 import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
 import 'package:arquitectura/presentation/home_page_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,25 +18,29 @@ class HomePage extends StatelessWidget {
           return Scaffold(
             backgroundColor: Theme.of(context).colorScheme.surface,
             appBar: AppBar(
-                iconTheme: IconThemeData(
-                    color: Theme.of(context).colorScheme.onSurface),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                flexibleSpace: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, right: 10),
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Login",
-                          style: Theme.of(context).textTheme.labelMedium!,
-                        ),
-                      ),
-                    )
-                  ],
-                )),
+              iconTheme:
+                  IconThemeData(color: Theme.of(context).colorScheme.onSurface),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              actions: [
+                ElevatedButton(
+                    style: ButtonStyle(
+                        shape: const WidgetStatePropertyAll<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)))),
+                        backgroundColor: WidgetStatePropertyAll<Color>(
+                            Theme.of(context).colorScheme.surface)),
+                    onPressed: () {
+                      context.push(AppRoutes.login.path);
+                    },
+                    child: Text(
+                      "Iniciar sesión",
+                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface),
+                    )),
+                const SizedBox(width: 8),
+              ],
+            ),
             body: (state.games == null)
                 ? const Center(
                     child: SizedBox(
@@ -44,11 +51,13 @@ class HomePage extends StatelessWidget {
                         )))
                 : HomePageContent(games: state.games!),
             drawer: Drawer(
-              child: ListView(padding: EdgeInsets.all(16), children: [
+              child: ListView(padding: const EdgeInsets.all(16), children: [
                 Text(
                   'Generos',
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(color: Theme.of(context).colorScheme.onSurface),
                 ),
                 if (state.isLoading)
                   const SizedBox(
@@ -61,7 +70,7 @@ class HomePage extends StatelessWidget {
                       ))
                 else
                   ...state.genres!.map((item) => ListTile(
-                    contentPadding: const EdgeInsets.only(left: 8),
+                        contentPadding: const EdgeInsets.only(left: 8),
                         title: Text(item.genre!,
                             style: Theme.of(context).textTheme.labelMedium!),
                         onTap: () {},
