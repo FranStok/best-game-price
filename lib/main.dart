@@ -4,6 +4,7 @@ import 'package:arquitectura/core/themes/app_theme.dart';
 import 'package:arquitectura/firebase_options.dart';
 import 'package:arquitectura/presentation/error_route.dart';
 import 'package:arquitectura/presentation/home_page.dart';
+import 'package:arquitectura/presentation/home_page_content.dart';
 import 'package:arquitectura/presentation/login/login_cubit/session_cubit.dart';
 import 'package:arquitectura/presentation/login/login_page.dart';
 import 'package:firebase_core/firebase_core.dart';
