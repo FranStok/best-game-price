@@ -19,22 +19,26 @@ mixin _$GamesState {
   List<Game>? get games => throw _privateConstructorUsedError;
   List<Genre>? get genres => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
+  Genre? get selectedGenre => throw _privateConstructorUsedError;
+  String? get search => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Game>? games, List<Genre>? genres, bool isLoading)
+    required TResult Function(List<Game>? games, List<Genre>? genres,
+            bool isLoading, Genre? selectedGenre, String? search)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading,
+            Genre? selectedGenre, String? search)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading,
+            Genre? selectedGenre, String? search)?
         initial,
     required TResult orElse(),
   }) =>
@@ -69,7 +73,14 @@ abstract class $GamesStateCopyWith<$Res> {
           GamesState value, $Res Function(GamesState) then) =
       _$GamesStateCopyWithImpl<$Res, GamesState>;
   @useResult
-  $Res call({List<Game>? games, List<Genre>? genres, bool isLoading});
+  $Res call(
+      {List<Game>? games,
+      List<Genre>? genres,
+      bool isLoading,
+      Genre? selectedGenre,
+      String? search});
+
+  $GenreCopyWith<$Res>? get selectedGenre;
 }
 
 /// @nodoc
@@ -90,6 +101,8 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
     Object? games = freezed,
     Object? genres = freezed,
     Object? isLoading = null,
+    Object? selectedGenre = freezed,
+    Object? search = freezed,
   }) {
     return _then(_value.copyWith(
       games: freezed == games
@@ -104,7 +117,29 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedGenre: freezed == selectedGenre
+          ? _value.selectedGenre
+          : selectedGenre // ignore: cast_nullable_to_non_nullable
+              as Genre?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
+  }
+
+  /// Create a copy of GamesState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GenreCopyWith<$Res>? get selectedGenre {
+    if (_value.selectedGenre == null) {
+      return null;
+    }
+
+    return $GenreCopyWith<$Res>(_value.selectedGenre!, (value) {
+      return _then(_value.copyWith(selectedGenre: value) as $Val);
+    });
   }
 }
 
@@ -116,7 +151,15 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Game>? games, List<Genre>? genres, bool isLoading});
+  $Res call(
+      {List<Game>? games,
+      List<Genre>? genres,
+      bool isLoading,
+      Genre? selectedGenre,
+      String? search});
+
+  @override
+  $GenreCopyWith<$Res>? get selectedGenre;
 }
 
 /// @nodoc
@@ -135,6 +178,8 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? games = freezed,
     Object? genres = freezed,
     Object? isLoading = null,
+    Object? selectedGenre = freezed,
+    Object? search = freezed,
   }) {
     return _then(_$InitialImpl(
       games: freezed == games
@@ -149,6 +194,14 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedGenre: freezed == selectedGenre
+          ? _value.selectedGenre
+          : selectedGenre // ignore: cast_nullable_to_non_nullable
+              as Genre?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -159,7 +212,9 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl(
       {final List<Game>? games,
       final List<Genre>? genres,
-      this.isLoading = true})
+      this.isLoading = true,
+      this.selectedGenre,
+      this.search})
       : _games = games,
         _genres = genres;
 
@@ -186,10 +241,14 @@ class _$InitialImpl implements _Initial {
   @override
   @JsonKey()
   final bool isLoading;
+  @override
+  final Genre? selectedGenre;
+  @override
+  final String? search;
 
   @override
   String toString() {
-    return 'GamesState.initial(games: $games, genres: $genres, isLoading: $isLoading)';
+    return 'GamesState.initial(games: $games, genres: $genres, isLoading: $isLoading, selectedGenre: $selectedGenre, search: $search)';
   }
 
   @override
@@ -200,7 +259,10 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality().equals(other._games, _games) &&
             const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.isLoading, isLoading) ||
-                other.isLoading == isLoading));
+                other.isLoading == isLoading) &&
+            (identical(other.selectedGenre, selectedGenre) ||
+                other.selectedGenre == selectedGenre) &&
+            (identical(other.search, search) || other.search == search));
   }
 
   @override
@@ -208,7 +270,9 @@ class _$InitialImpl implements _Initial {
       runtimeType,
       const DeepCollectionEquality().hash(_games),
       const DeepCollectionEquality().hash(_genres),
-      isLoading);
+      isLoading,
+      selectedGenre,
+      search);
 
   /// Create a copy of GamesState
   /// with the given fields replaced by the non-null parameter values.
@@ -221,31 +285,33 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            List<Game>? games, List<Genre>? genres, bool isLoading)
+    required TResult Function(List<Game>? games, List<Genre>? genres,
+            bool isLoading, Genre? selectedGenre, String? search)
         initial,
   }) {
-    return initial(games, genres, isLoading);
+    return initial(games, genres, isLoading, selectedGenre, search);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading,
+            Genre? selectedGenre, String? search)?
         initial,
   }) {
-    return initial?.call(games, genres, isLoading);
+    return initial?.call(games, genres, isLoading, selectedGenre, search);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading,
+            Genre? selectedGenre, String? search)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(games, genres, isLoading);
+      return initial(games, genres, isLoading, selectedGenre, search);
     }
     return orElse();
   }
@@ -283,7 +349,9 @@ abstract class _Initial implements GamesState {
   const factory _Initial(
       {final List<Game>? games,
       final List<Genre>? genres,
-      final bool isLoading}) = _$InitialImpl;
+      final bool isLoading,
+      final Genre? selectedGenre,
+      final String? search}) = _$InitialImpl;
 
   @override
   List<Game>? get games;
@@ -291,6 +359,10 @@ abstract class _Initial implements GamesState {
   List<Genre>? get genres;
   @override
   bool get isLoading;
+  @override
+  Genre? get selectedGenre;
+  @override
+  String? get search;
 
   /// Create a copy of GamesState
   /// with the given fields replaced by the non-null parameter values.

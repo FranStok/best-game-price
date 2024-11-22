@@ -1,5 +1,6 @@
 import 'package:arquitectura/core/router/app_routes.dart';
 import 'package:arquitectura/main.dart';
+import 'package:arquitectura/presentation/cards/card.dart';
 import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
 import 'package:arquitectura/presentation/home_page_content.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isSearching = false;
     return BlocProvider(
       create: (context) => GamesCubit(),
       child: BlocBuilder<GamesCubit, GamesState>(
@@ -22,6 +24,40 @@ class HomePage extends StatelessWidget {
                   IconThemeData(color: Theme.of(context).colorScheme.onSurface),
               backgroundColor: Theme.of(context).colorScheme.primary,
               actions: [
+                StatefulBuilder(builder: (context, setState) {
+                  if (isSearching) {
+                    return SizedBox(
+                        width: 300,
+                        height: 35,
+                        child: SearchBar(
+                          leading: const Icon(Icons.search_outlined),
+                          onChanged: (value) {
+                            (value.isEmpty)
+                                ? BlocProvider.of<GamesCubit>(context)
+                                    .changeSelectedSearch(null)
+                                : BlocProvider.of<GamesCubit>(context)
+                                    .changeSelectedSearch(value);
+
+                          },
+                          trailing: [
+                            IconButton(
+                                onPressed: () {
+                                  isSearching = false;
+                                  setState(() {});
+                                },
+                                icon: const Icon(Icons.close))
+                          ],
+                          hintText: "Buscar juego...",
+                        ));
+                  }
+                  return IconButton(
+                      onPressed: () {
+                        isSearching = true;
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.search_outlined));
+                }),
+                const SizedBox(width: 4),
                 ElevatedButton(
                     style: ButtonStyle(
                         shape: const WidgetStatePropertyAll<OutlinedBorder>(
@@ -49,37 +85,70 @@ class HomePage extends StatelessWidget {
                         child: CircularProgressIndicator(
                           color: Colors.white,
                         )))
-                : HomePageContent(games: state.games!),
-            drawer: Drawer(
-              child: ListView(padding: const EdgeInsets.all(16), children: [
-                Text(
-                  'Generos',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelLarge!
-                      .copyWith(color: Theme.of(context).colorScheme.onSurface),
-                ),
-                if (state.isLoading)
-                  const SizedBox(
-                      height: 40,
-                      width: 40,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                        ),
-                      ))
-                else
-                  ...state.genres!.map((item) => ListTile(
-                        contentPadding: const EdgeInsets.only(left: 8),
-                        title: Text(item.genre!,
-                            style: Theme.of(context).textTheme.labelMedium!),
-                        onTap: () {},
-                      ))
-              ]),
-            ),
+                : Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: HomePageContent(
+                      games: state.games!,
+                      selectedGenre: state.selectedGenre,
+                      search: state.search,
+                    ),
+                  ),
+            drawer: _Drawer(state: state),
           );
         },
       ),
+    );
+  }
+}
+
+class _Drawer extends StatelessWidget {
+  const _Drawer({
+    super.key,
+    required this.state,
+  });
+
+  final GamesState state;
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(padding: const EdgeInsets.all(16), children: [
+        Text(
+          'Generos',
+          style: Theme.of(context)
+              .textTheme
+              .labelLarge!
+              .copyWith(color: Theme.of(context).colorScheme.onSurface),
+        ),
+        if (state.isLoading)
+          const SizedBox(
+              height: 40,
+              width: 40,
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ))
+        else ...[
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 8),
+            title:
+                Text("Todos", style: Theme.of(context).textTheme.labelMedium!),
+            onTap: () {
+              BlocProvider.of<GamesCubit>(context).changeSelectedGenre(null);
+            },
+          ),
+          ...state.genres!.map((item) => ListTile(
+                contentPadding: const EdgeInsets.only(left: 8),
+                title: Text(item.genre!,
+                    style: Theme.of(context).textTheme.labelMedium!),
+                onTap: () {
+                  BlocProvider.of<GamesCubit>(context)
+                      .changeSelectedGenre(item);
+                },
+              ))
+        ]
+      ]),
     );
   }
 }
