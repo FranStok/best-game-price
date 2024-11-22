@@ -6,6 +6,7 @@ class GamesState with _$GamesState {
     List<Game>? games,
     List<Genre>? genres,
     @Default(true) bool isLoading,
-    Genre? selectedGenre
+    Genre? selectedGenre,
+    String? search
   }) = _Initial;
 }

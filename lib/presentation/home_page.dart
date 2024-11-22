@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isSearching = false;
     return BlocProvider(
       create: (context) => GamesCubit(),
       child: BlocBuilder<GamesCubit, GamesState>(
@@ -23,6 +24,40 @@ class HomePage extends StatelessWidget {
                   IconThemeData(color: Theme.of(context).colorScheme.onSurface),
               backgroundColor: Theme.of(context).colorScheme.primary,
               actions: [
+                StatefulBuilder(builder: (context, setState) {
+                  if (isSearching) {
+                    return SizedBox(
+                        width: 300,
+                        height: 35,
+                        child: SearchBar(
+                          leading: const Icon(Icons.search_outlined),
+                          onChanged: (value) {
+                            (value.isEmpty)
+                                ? BlocProvider.of<GamesCubit>(context)
+                                    .changeSelectedSearch(null)
+                                : BlocProvider.of<GamesCubit>(context)
+                                    .changeSelectedSearch(value);
+
+                          },
+                          trailing: [
+                            IconButton(
+                                onPressed: () {
+                                  isSearching = false;
+                                  setState(() {});
+                                },
+                                icon: const Icon(Icons.close))
+                          ],
+                          hintText: "Buscar juego...",
+                        ));
+                  }
+                  return IconButton(
+                      onPressed: () {
+                        isSearching = true;
+                        setState(() {});
+                      },
+                      icon: const Icon(Icons.search_outlined));
+                }),
+                const SizedBox(width: 4),
                 ElevatedButton(
                     style: ButtonStyle(
                         shape: const WidgetStatePropertyAll<OutlinedBorder>(
@@ -51,10 +86,14 @@ class HomePage extends StatelessWidget {
                           color: Colors.white,
                         )))
                 : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: HomePageContent(games: state.games!,selectedGenre: state.selectedGenre,),
-                ),
-            drawer:  _Drawer(state: state),
+                    padding: const EdgeInsets.all(16),
+                    child: HomePageContent(
+                      games: state.games!,
+                      selectedGenre: state.selectedGenre,
+                      search: state.search,
+                    ),
+                  ),
+            drawer: _Drawer(state: state),
           );
         },
       ),
@@ -64,7 +103,8 @@ class HomePage extends StatelessWidget {
 
 class _Drawer extends StatelessWidget {
   const _Drawer({
-    super.key, required this.state,
+    super.key,
+    required this.state,
   });
 
   final GamesState state;
@@ -89,24 +129,25 @@ class _Drawer extends StatelessWidget {
                   color: Colors.white,
                 ),
               ))
-        else
-          ...[
-            ListTile(
-                contentPadding: const EdgeInsets.only(left: 8),
-                title: Text("Todos",
-                    style: Theme.of(context).textTheme.labelMedium!),
-                onTap: () {
-                  BlocProvider.of<GamesCubit>(context).changeSelectedGenre(null);
-                },
-              ),
-            ...state.genres!.map((item) => ListTile(
+        else ...[
+          ListTile(
+            contentPadding: const EdgeInsets.only(left: 8),
+            title:
+                Text("Todos", style: Theme.of(context).textTheme.labelMedium!),
+            onTap: () {
+              BlocProvider.of<GamesCubit>(context).changeSelectedGenre(null);
+            },
+          ),
+          ...state.genres!.map((item) => ListTile(
                 contentPadding: const EdgeInsets.only(left: 8),
                 title: Text(item.genre!,
                     style: Theme.of(context).textTheme.labelMedium!),
                 onTap: () {
-                  BlocProvider.of<GamesCubit>(context).changeSelectedGenre(item);
+                  BlocProvider.of<GamesCubit>(context)
+                      .changeSelectedGenre(item);
                 },
-              ))]
+              ))
+        ]
       ]),
     );
   }

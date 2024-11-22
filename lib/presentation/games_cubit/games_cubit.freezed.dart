@@ -20,24 +20,25 @@ mixin _$GamesState {
   List<Genre>? get genres => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   Genre? get selectedGenre => throw _privateConstructorUsedError;
+  String? get search => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Game>? games, List<Genre>? genres,
-            bool isLoading, Genre? selectedGenre)
+            bool isLoading, Genre? selectedGenre, String? search)
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading,
-            Genre? selectedGenre)?
+            Genre? selectedGenre, String? search)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading,
-            Genre? selectedGenre)?
+            Genre? selectedGenre, String? search)?
         initial,
     required TResult orElse(),
   }) =>
@@ -76,7 +77,8 @@ abstract class $GamesStateCopyWith<$Res> {
       {List<Game>? games,
       List<Genre>? genres,
       bool isLoading,
-      Genre? selectedGenre});
+      Genre? selectedGenre,
+      String? search});
 
   $GenreCopyWith<$Res>? get selectedGenre;
 }
@@ -100,6 +102,7 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
     Object? genres = freezed,
     Object? isLoading = null,
     Object? selectedGenre = freezed,
+    Object? search = freezed,
   }) {
     return _then(_value.copyWith(
       games: freezed == games
@@ -118,6 +121,10 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
           ? _value.selectedGenre
           : selectedGenre // ignore: cast_nullable_to_non_nullable
               as Genre?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -148,7 +155,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       {List<Game>? games,
       List<Genre>? genres,
       bool isLoading,
-      Genre? selectedGenre});
+      Genre? selectedGenre,
+      String? search});
 
   @override
   $GenreCopyWith<$Res>? get selectedGenre;
@@ -171,6 +179,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? genres = freezed,
     Object? isLoading = null,
     Object? selectedGenre = freezed,
+    Object? search = freezed,
   }) {
     return _then(_$InitialImpl(
       games: freezed == games
@@ -189,6 +198,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.selectedGenre
           : selectedGenre // ignore: cast_nullable_to_non_nullable
               as Genre?,
+      search: freezed == search
+          ? _value.search
+          : search // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -200,7 +213,8 @@ class _$InitialImpl implements _Initial {
       {final List<Game>? games,
       final List<Genre>? genres,
       this.isLoading = true,
-      this.selectedGenre})
+      this.selectedGenre,
+      this.search})
       : _games = games,
         _genres = genres;
 
@@ -229,10 +243,12 @@ class _$InitialImpl implements _Initial {
   final bool isLoading;
   @override
   final Genre? selectedGenre;
+  @override
+  final String? search;
 
   @override
   String toString() {
-    return 'GamesState.initial(games: $games, genres: $genres, isLoading: $isLoading, selectedGenre: $selectedGenre)';
+    return 'GamesState.initial(games: $games, genres: $genres, isLoading: $isLoading, selectedGenre: $selectedGenre, search: $search)';
   }
 
   @override
@@ -245,7 +261,8 @@ class _$InitialImpl implements _Initial {
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading) &&
             (identical(other.selectedGenre, selectedGenre) ||
-                other.selectedGenre == selectedGenre));
+                other.selectedGenre == selectedGenre) &&
+            (identical(other.search, search) || other.search == search));
   }
 
   @override
@@ -254,7 +271,8 @@ class _$InitialImpl implements _Initial {
       const DeepCollectionEquality().hash(_games),
       const DeepCollectionEquality().hash(_genres),
       isLoading,
-      selectedGenre);
+      selectedGenre,
+      search);
 
   /// Create a copy of GamesState
   /// with the given fields replaced by the non-null parameter values.
@@ -268,32 +286,32 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(List<Game>? games, List<Genre>? genres,
-            bool isLoading, Genre? selectedGenre)
+            bool isLoading, Genre? selectedGenre, String? search)
         initial,
   }) {
-    return initial(games, genres, isLoading, selectedGenre);
+    return initial(games, genres, isLoading, selectedGenre, search);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading,
-            Genre? selectedGenre)?
+            Genre? selectedGenre, String? search)?
         initial,
   }) {
-    return initial?.call(games, genres, isLoading, selectedGenre);
+    return initial?.call(games, genres, isLoading, selectedGenre, search);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading,
-            Genre? selectedGenre)?
+            Genre? selectedGenre, String? search)?
         initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(games, genres, isLoading, selectedGenre);
+      return initial(games, genres, isLoading, selectedGenre, search);
     }
     return orElse();
   }
@@ -332,7 +350,8 @@ abstract class _Initial implements GamesState {
       {final List<Game>? games,
       final List<Genre>? genres,
       final bool isLoading,
-      final Genre? selectedGenre}) = _$InitialImpl;
+      final Genre? selectedGenre,
+      final String? search}) = _$InitialImpl;
 
   @override
   List<Game>? get games;
@@ -342,6 +361,8 @@ abstract class _Initial implements GamesState {
   bool get isLoading;
   @override
   Genre? get selectedGenre;
+  @override
+  String? get search;
 
   /// Create a copy of GamesState
   /// with the given fields replaced by the non-null parameter values.

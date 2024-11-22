@@ -38,4 +38,8 @@ class GamesCubit extends Cubit<GamesState> {
   changeSelectedGenre(Genre? genre){
     emit(state.copyWith(selectedGenre:genre));
   }
+
+  changeSelectedSearch(String? search){
+    emit(state.copyWith(search:search));
+  }
 }

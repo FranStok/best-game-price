@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomePageContent extends StatefulWidget {
   const HomePageContent({
     super.key,
-    required this.games,  this.selectedGenre,
+    required this.games,  this.selectedGenre, this.search,
   });
 
   @override
@@ -24,6 +24,8 @@ class HomePageContent extends StatefulWidget {
 
   final List<Game> games;
   final Genre? selectedGenre;
+  final String? search;
+
 }
 
 class _HomePageContentState extends State<HomePageContent> {
@@ -153,7 +155,7 @@ class _HomePageContentState extends State<HomePageContent> {
           const SizedBox(height: 30),
           Text(
               (widget.selectedGenre != null)
-                  ? "JUEGOS DE ${widget.selectedGenre!.genre}"
+                  ? "JUEGOS DE ${widget.selectedGenre!.genre!.toUpperCase()}"
                   : 'TODOS LOS GENEROS',
               style: Theme.of(context).textTheme.labelMedium!),
           const SizedBox(height: 30),
@@ -164,8 +166,12 @@ class _HomePageContentState extends State<HomePageContent> {
             runSpacing: 16,
             children: _games
                 .where((game) =>
-                    widget.selectedGenre == null ||
-                    game.gameGenres.contains(widget.selectedGenre))
+                    (widget.selectedGenre == null ||
+                    game.gameGenres.contains(widget.selectedGenre)) &&
+                        (widget.search == null ||
+                            game.name
+                                .toLowerCase()
+                                .contains(widget.search!.toLowerCase())))
                 .map((game) => _TinyCard(game: game))
                 .toList(),
           )
