@@ -14,7 +14,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePageContent extends StatefulWidget {
   const HomePageContent({
-    super.key, required this.games,
+    super.key,
+    required this.games,
   });
 
   @override
@@ -32,7 +33,7 @@ class _HomePageContentState extends State<HomePageContent> {
 
   @override
   void initState() {
-    _games=widget.games;
+    _games = widget.games;
     super.initState();
     _startAutoScroll();
   }
@@ -78,127 +79,69 @@ class _HomePageContentState extends State<HomePageContent> {
 
   @override
   Widget build(BuildContext context) {
-
-        return Scaffold(
-          backgroundColor: Theme.of(context).colorScheme.surface,
-          appBar: AppBar(
-              iconTheme:
-                  IconThemeData(color: Theme.of(context).colorScheme.onSurface),
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              flexibleSpace: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, right: 10),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Login",
-                        style: Theme.of(context).textTheme.labelMedium!,
-                      ),
-                    ),
-                  )
-                ],
-              )),
-          drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(
-                    'Generos',
-                    style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface),
-                  ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 30),
+        Padding(
+          padding: const EdgeInsets.only(left: 130),
+          child: Text('DESTACADOS Y RECOMENDADOS',
+              style: Theme.of(context).textTheme.labelMedium!),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              onPressed: _scrollLeft,
+              color: Colors.white,
+              icon: const Icon(Icons.arrow_back_ios_outlined, size: 30),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                  top: 10, left: 10, right: 10, bottom: 10),
+              child: SizedBox(
+                height: 355,
+                width: 700,
+                child: PageView.builder(
+                  controller: _pageController,
+                  itemCount: _games.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _imagenActual = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    return Center(
+                      child: GameCard(game: _games[index]),
+                    );
+                  },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: ListTile(
-                    title: Text('Terror',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                    onTap: () {},
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: ListTile(
-                    title: Text('Supervivencia',
-                        style: Theme.of(context).textTheme.labelMedium!),
-                    onTap: () {},
-                  ),
-                ),
-              ],
+              ),
+            ),
+            IconButton(
+              onPressed: _scrollRight,
+              color: Colors.white,
+              icon: const Icon(Icons.arrow_forward_ios, size: 30),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _games.length,
+            (index) => AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              width: _imagenActual == index ? 12 : 8,
+              height: _imagenActual == index ? 12 : 8,
+              decoration: BoxDecoration(
+                color: _imagenActual == index ? Colors.white : Colors.grey,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(left: 130),
-                child: Text('DESTACADOS Y RECOMENDADOS',
-                    style: Theme.of(context).textTheme.labelMedium!),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    onPressed: _scrollLeft,
-                    color: Colors.white,
-                    icon: const Icon(Icons.arrow_back_ios_outlined, size: 30),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, left: 10, right: 10, bottom: 10),
-                    child: SizedBox(
-                      height: 355,
-                      width: 700,
-                      child: PageView.builder(
-                        controller: _pageController,
-                        itemCount: _games.length,
-                        onPageChanged: (index) {
-                          setState(() {
-                            _imagenActual = index;
-                          });
-                        },
-                        itemBuilder: (context, index) {
-                          return Center(
-                            child: GameCard(game: _games[index]),
-                          );
-                        },
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: _scrollRight,
-                    color: Colors.white,
-                    icon: const Icon(Icons.arrow_forward_ios, size: 30),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(
-                  _games.length,
-                  (index) => AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
-                    width: _imagenActual == index ? 12 : 8,
-                    height: _imagenActual == index ? 12 : 8,
-                    decoration: BoxDecoration(
-                      color:
-                          _imagenActual == index ? Colors.white : Colors.grey,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
-              )
-            ],
-          ),
-        );
-
+        )
+      ],
+    );
   }
 }
