@@ -44,36 +44,29 @@ class HomePage extends StatelessWidget {
                         )))
                 : HomePageContent(games: state.games!),
             drawer: Drawer(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      'Generos',
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: ListTile(
-                      title: Text('Terror',
-                          style: Theme.of(context).textTheme.labelMedium!),
-                      onTap: () {},
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: ListTile(
-                      title: Text('Supervivencia',
-                          style: Theme.of(context).textTheme.labelMedium!),
-                      onTap: () {},
-                    ),
-                  ),
-                ],
-              ),
+              child: ListView(padding: EdgeInsets.all(16), children: [
+                Text(
+                  'Generos',
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onSurface),
+                ),
+                if (state.isLoading)
+                  const SizedBox(
+                      height: 40,
+                      width: 40,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      ))
+                else
+                  ...state.genres!.map((item) => ListTile(
+                    contentPadding: const EdgeInsets.only(left: 8),
+                        title: Text(item.genre!,
+                            style: Theme.of(context).textTheme.labelMedium!),
+                        onTap: () {},
+                      ))
+              ]),
             ),
           );
         },

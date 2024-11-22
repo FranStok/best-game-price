@@ -39,25 +39,29 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   void _startAutoScroll() {
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (!_isHovering) {
-        if (_imagenActual < _games.length - 1) {
-          _pageController.nextPage(
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        } else {
-          _pageController.animateToPage(
-            0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        }
+    _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
+  }
+
+  void _periodicMove(Timer timer) {
+    if (!_isHovering) {
+      if (_imagenActual < _games.length - 1) {
+        _pageController.nextPage(
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+      } else {
+        _pageController.animateToPage(
+          0,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
       }
-    });
+    }
   }
 
   void _scrollLeft() {
+    _timer?.cancel();
+    _timer=Timer.periodic(const Duration(seconds: 5),_periodicMove);
     _pageController.previousPage(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
@@ -65,6 +69,8 @@ class _HomePageContentState extends State<HomePageContent> {
   }
 
   void _scrollRight() {
+    _timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
     _pageController.nextPage(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
@@ -80,14 +86,11 @@ class _HomePageContentState extends State<HomePageContent> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(height: 30),
-        Padding(
-          padding: const EdgeInsets.only(left: 130),
-          child: Text('DESTACADOS Y RECOMENDADOS',
-              style: Theme.of(context).textTheme.labelMedium!),
-        ),
+        Text('DESTACADOS Y RECOMENDADOS',
+            style: Theme.of(context).textTheme.labelMedium!),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

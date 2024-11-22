@@ -17,20 +17,25 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$GamesState {
   List<Game>? get games => throw _privateConstructorUsedError;
+  List<Genre>? get genres => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Game>? games, bool isLoading) initial,
+    required TResult Function(
+            List<Game>? games, List<Genre>? genres, bool isLoading)
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Game>? games, bool isLoading)? initial,
+    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Game>? games, bool isLoading)? initial,
+    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+        initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -64,7 +69,7 @@ abstract class $GamesStateCopyWith<$Res> {
           GamesState value, $Res Function(GamesState) then) =
       _$GamesStateCopyWithImpl<$Res, GamesState>;
   @useResult
-  $Res call({List<Game>? games, bool isLoading});
+  $Res call({List<Game>? games, List<Genre>? genres, bool isLoading});
 }
 
 /// @nodoc
@@ -83,6 +88,7 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
   @override
   $Res call({
     Object? games = freezed,
+    Object? genres = freezed,
     Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
@@ -90,6 +96,10 @@ class _$GamesStateCopyWithImpl<$Res, $Val extends GamesState>
           ? _value.games
           : games // ignore: cast_nullable_to_non_nullable
               as List<Game>?,
+      genres: freezed == genres
+          ? _value.genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<Genre>?,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -106,7 +116,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<Game>? games, bool isLoading});
+  $Res call({List<Game>? games, List<Genre>? genres, bool isLoading});
 }
 
 /// @nodoc
@@ -123,6 +133,7 @@ class __$$InitialImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? games = freezed,
+    Object? genres = freezed,
     Object? isLoading = null,
   }) {
     return _then(_$InitialImpl(
@@ -130,6 +141,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._games
           : games // ignore: cast_nullable_to_non_nullable
               as List<Game>?,
+      genres: freezed == genres
+          ? _value._genres
+          : genres // ignore: cast_nullable_to_non_nullable
+              as List<Genre>?,
       isLoading: null == isLoading
           ? _value.isLoading
           : isLoading // ignore: cast_nullable_to_non_nullable
@@ -141,8 +156,12 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({final List<Game>? games, this.isLoading = true})
-      : _games = games;
+  const _$InitialImpl(
+      {final List<Game>? games,
+      final List<Genre>? genres,
+      this.isLoading = true})
+      : _games = games,
+        _genres = genres;
 
   final List<Game>? _games;
   @override
@@ -154,13 +173,23 @@ class _$InitialImpl implements _Initial {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<Genre>? _genres;
+  @override
+  List<Genre>? get genres {
+    final value = _genres;
+    if (value == null) return null;
+    if (_genres is EqualUnmodifiableListView) return _genres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey()
   final bool isLoading;
 
   @override
   String toString() {
-    return 'GamesState.initial(games: $games, isLoading: $isLoading)';
+    return 'GamesState.initial(games: $games, genres: $genres, isLoading: $isLoading)';
   }
 
   @override
@@ -169,13 +198,17 @@ class _$InitialImpl implements _Initial {
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
             const DeepCollectionEquality().equals(other._games, _games) &&
+            const DeepCollectionEquality().equals(other._genres, _genres) &&
             (identical(other.isLoading, isLoading) ||
                 other.isLoading == isLoading));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_games), isLoading);
+      runtimeType,
+      const DeepCollectionEquality().hash(_games),
+      const DeepCollectionEquality().hash(_genres),
+      isLoading);
 
   /// Create a copy of GamesState
   /// with the given fields replaced by the non-null parameter values.
@@ -188,27 +221,31 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<Game>? games, bool isLoading) initial,
+    required TResult Function(
+            List<Game>? games, List<Genre>? genres, bool isLoading)
+        initial,
   }) {
-    return initial(games, isLoading);
+    return initial(games, genres, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<Game>? games, bool isLoading)? initial,
+    TResult? Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+        initial,
   }) {
-    return initial?.call(games, isLoading);
+    return initial?.call(games, genres, isLoading);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<Game>? games, bool isLoading)? initial,
+    TResult Function(List<Game>? games, List<Genre>? genres, bool isLoading)?
+        initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(games, isLoading);
+      return initial(games, genres, isLoading);
     }
     return orElse();
   }
@@ -243,11 +280,15 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements GamesState {
-  const factory _Initial({final List<Game>? games, final bool isLoading}) =
-      _$InitialImpl;
+  const factory _Initial(
+      {final List<Game>? games,
+      final List<Genre>? genres,
+      final bool isLoading}) = _$InitialImpl;
 
   @override
   List<Game>? get games;
+  @override
+  List<Genre>? get genres;
   @override
   bool get isLoading;
 
