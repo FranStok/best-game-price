@@ -69,29 +69,30 @@ class GameCard extends StatelessWidget {
                               .labelLarge!
                               .copyWith(color: Colors.white)),
                       const SizedBox(height: 8),
-                      Wrap(
-                          spacing: 12,
-                          runSpacing: 8,
+                      Column(
                           children: game.gameGenres
-                              .map((item) => Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromARGB(
-                                                255, 136, 134, 134)
-                                            .withOpacity(0.2),
-                                        borderRadius: const BorderRadius.all(
-                                            Radius.circular(6))),
-                                    width: 80,
-                                    padding: const EdgeInsets.all(8),
-                                    child: Center(
-                                      child: Text(
-                                        item.genre!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(color: Colors.white),
+                              .map((item) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Container(
+                                      decoration: BoxDecoration(
+                                          color: const Color.fromARGB(
+                                                  255, 136, 134, 134)
+                                              .withOpacity(0.2),
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(6))),
+                                      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 4),
+                                      child: Center(
+                                        child: Text(
+                                          item.genre!,
+                                          maxLines: 1,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelSmall!
+                                              .copyWith(color: Colors.white),
+                                        ),
                                       ),
                                     ),
-                                  ))
+                              ))
                               .toList()),
                       const Spacer(),
                       Row(

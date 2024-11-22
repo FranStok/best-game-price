@@ -61,7 +61,7 @@ class _HomePageContentState extends State<HomePageContent> {
 
   void _scrollLeft() {
     _timer?.cancel();
-    _timer=Timer.periodic(const Duration(seconds: 5),_periodicMove);
+    _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
     _pageController.previousPage(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeInOut,
@@ -85,66 +85,110 @@ class _HomePageContentState extends State<HomePageContent> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        const SizedBox(height: 30),
-        Text('DESTACADOS Y RECOMENDADOS',
-            style: Theme.of(context).textTheme.labelMedium!),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              onPressed: _scrollLeft,
-              color: Colors.white,
-              icon: const Icon(Icons.arrow_back_ios_outlined, size: 30),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 10, left: 10, right: 10, bottom: 10),
-              child: SizedBox(
-                height: 355,
-                width: 700,
-                child: PageView.builder(
-                  controller: _pageController,
-                  itemCount: _games.length,
-                  onPageChanged: (index) {
-                    setState(() {
-                      _imagenActual = index;
-                    });
-                  },
-                  itemBuilder: (context, index) {
-                    return Center(
-                      child: GameCard(game: _games[index]),
-                    );
-                  },
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(height: 30),
+          Text('DESTACADOS Y RECOMENDADOS',
+              style: Theme.of(context).textTheme.labelMedium!),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                onPressed: _scrollLeft,
+                color: Colors.white,
+                icon: const Icon(Icons.arrow_back_ios_outlined, size: 30),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 10, left: 10, right: 10, bottom: 20),
+                child: SizedBox(
+                  height: 355,
+                  width: 700,
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: _games.length,
+                    onPageChanged: (index) {
+                      setState(() {
+                        _imagenActual = index;
+                      });
+                    },
+                    itemBuilder: (context, index) {
+                      return Center(
+                        child: GameCard(game: _games[index]),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              IconButton(
+                onPressed: _scrollRight,
+                color: Colors.white,
+                icon: const Icon(Icons.arrow_forward_ios, size: 30),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _games.length,
+                (index) => AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  width: _imagenActual == index ? 12 : 8,
+                  height: _imagenActual == index ? 12 :8,
+                  decoration: BoxDecoration(
+                    color: _imagenActual == index ? Colors.white : Colors.grey,
+                    shape: BoxShape.circle,
+                  ),
                 ),
               ),
             ),
-            IconButton(
-              onPressed: _scrollRight,
-              color: Colors.white,
-              icon: const Icon(Icons.arrow_forward_ios, size: 30),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            _games.length,
-            (index) => AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              margin: const EdgeInsets.symmetric(horizontal: 5),
-              width: _imagenActual == index ? 12 : 8,
-              height: _imagenActual == index ? 12 : 8,
-              decoration: BoxDecoration(
-                color: _imagenActual == index ? Colors.white : Colors.grey,
-                shape: BoxShape.circle,
-              ),
-            ),
           ),
-        )
-      ],
+          const SizedBox(height: 30),
+          Text('TODOS LOS GENEROS',
+              style: Theme.of(context).textTheme.labelMedium!),
+          const SizedBox(height: 30),
+          //CARDS POR GENERO
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 16,
+            children: _games.map((game) => _TinyCard(game: game)).toList(),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _TinyCard extends StatelessWidget {
+  const _TinyCard({super.key, required this.game});
+
+  final Game game;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).colorScheme.primary,
+      child: Column(
+        children: [
+          Image.network(
+            game.image!,
+            fit: BoxFit.fill,
+            errorBuilder: (context, error, stackTrace) => SizedBox(height: 250,width: 450,),
+            height: 250,
+            width: 450,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(game.name),
+          ),
+        ],
+      ),
     );
   }
 }
