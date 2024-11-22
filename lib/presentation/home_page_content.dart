@@ -35,38 +35,39 @@ class _HomePageContentState extends State<HomePageContent> {
   @override
   void initState() {
     _games = widget.games;
-    bestOffers=getTop15BestDeals(_games);
+    bestOffers = getTop15BestDeals(_games);
     super.initState();
     _startAutoScroll();
   }
 
   double calculatePriceDifferencePercentage(Game game) {
-  // Obtener los precios de las tiendas
-  List<double> prices = game.gameStores.map((storePrice) => storePrice.price).toList();
+    // Obtener los precios de las tiendas
+    List<double> prices =
+        game.gameStores.map((storePrice) => storePrice.price).toList();
 
-  if (prices.isEmpty) return 0.0;
+    if (prices.isEmpty) return 0.0;
 
-  // Obtener el mejor precio (mínimo) y el peor precio (máximo)
-  double bestPrice = prices.reduce((a, b) => a < b ? a : b);
-  double worstPrice = prices.reduce((a, b) => a > b ? a : b);
+    // Obtener el mejor precio (mínimo) y el peor precio (máximo)
+    double bestPrice = prices.reduce((a, b) => a < b ? a : b);
+    double worstPrice = prices.reduce((a, b) => a > b ? a : b);
 
-  // Calcular la diferencia porcentual
-  return ((worstPrice - bestPrice) / bestPrice) * 100;
-}
+    // Calcular la diferencia porcentual
+    return ((worstPrice - bestPrice) / bestPrice) * 100;
+  }
 
-List<Game> getTop15BestDeals(List<Game> games) {
-  // Calcular la diferencia porcentual para cada juego y ordenarlos
-  List<Game> sortedGames = List.from(games);
+  List<Game> getTop15BestDeals(List<Game> games) {
+    // Calcular la diferencia porcentual para cada juego y ordenarlos
+    List<Game> sortedGames = List.from(games);
 
-  sortedGames.sort((a, b) {
-    double diffA = calculatePriceDifferencePercentage(a);
-    double diffB = calculatePriceDifferencePercentage(b);
-    return diffB.compareTo(diffA); // Ordenar de mayor a menor diferencia
-  });
+    sortedGames.sort((a, b) {
+      double diffA = calculatePriceDifferencePercentage(a);
+      double diffB = calculatePriceDifferencePercentage(b);
+      return diffB.compareTo(diffA); // Ordenar de mayor a menor diferencia
+    });
 
-  // Retornar los 10 mejores juegos
-  return sortedGames.take(15).toList();
-}
+    // Retornar los 10 mejores juegos
+    return sortedGames.take(15).toList();
+  }
 
   void _startAutoScroll() {
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
@@ -321,22 +322,20 @@ class _TinyCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelMedium,
                 ),
                 const SizedBox(width: 30),
-                 Row(
-                            children: [
-                              Image.asset(
-                                Stores.getStore(
-                                        StoreEnum.steam)
-                                    .image,
-                                height: 20,
-                                width: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              Text(
-                              "0",
-                              style: Theme.of(context).textTheme.labelMedium,
-                                                      ),
-                            ],
-                          ),
+                Row(
+                  children: [
+                    Image.asset(
+                      Stores.getStore(StoreEnum.steam).image,
+                      height: 20,
+                      width: 20,
+                    ),
+                    const SizedBox(width: 12),
+                    Text(
+                      "0",
+                      style: Theme.of(context).textTheme.labelMedium,
+                    ),
+                  ],
+                ),
               ]),
             ),
           ],
