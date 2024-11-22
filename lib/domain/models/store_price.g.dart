@@ -9,13 +9,13 @@ part of 'store_price.dart';
 _$StorePriceImpl _$$StorePriceImplFromJson(Map<String, dynamic> json) =>
     _$StorePriceImpl(
       price: (json['price'] as num).toDouble(),
-      storeId: StorePrice.readEnum((json['storeId'] as num).toInt()),
+      store: StorePrice.readEnum((json['storeId'] as num).toInt()),
     );
 
 Map<String, dynamic> _$$StorePriceImplToJson(_$StorePriceImpl instance) =>
     <String, dynamic>{
       'price': instance.price,
-      'storeId': _$StoreEnumEnumMap[instance.storeId]!,
+      'storeId': _$StoreEnumEnumMap[instance.store]!,
     };
 
 const _$StoreEnumEnumMap = {

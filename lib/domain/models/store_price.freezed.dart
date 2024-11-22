@@ -21,8 +21,8 @@ StorePrice _$StorePriceFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$StorePrice {
   double get price => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: StorePrice.readEnum)
-  StoreEnum get storeId => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+  StoreEnum get store => throw _privateConstructorUsedError;
 
   /// Serializes this StorePrice to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +42,8 @@ abstract class $StorePriceCopyWith<$Res> {
   @useResult
   $Res call(
       {double price,
-      @JsonKey(fromJson: StorePrice.readEnum) StoreEnum storeId});
+      @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+      StoreEnum store});
 }
 
 /// @nodoc
@@ -61,16 +62,16 @@ class _$StorePriceCopyWithImpl<$Res, $Val extends StorePrice>
   @override
   $Res call({
     Object? price = null,
-    Object? storeId = null,
+    Object? store = null,
   }) {
     return _then(_value.copyWith(
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      storeId: null == storeId
-          ? _value.storeId
-          : storeId // ignore: cast_nullable_to_non_nullable
+      store: null == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
               as StoreEnum,
     ) as $Val);
   }
@@ -86,7 +87,8 @@ abstract class _$$StorePriceImplCopyWith<$Res>
   @useResult
   $Res call(
       {double price,
-      @JsonKey(fromJson: StorePrice.readEnum) StoreEnum storeId});
+      @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+      StoreEnum store});
 }
 
 /// @nodoc
@@ -103,16 +105,16 @@ class __$$StorePriceImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? price = null,
-    Object? storeId = null,
+    Object? store = null,
   }) {
     return _then(_$StorePriceImpl(
       price: null == price
           ? _value.price
           : price // ignore: cast_nullable_to_non_nullable
               as double,
-      storeId: null == storeId
-          ? _value.storeId
-          : storeId // ignore: cast_nullable_to_non_nullable
+      store: null == store
+          ? _value.store
+          : store // ignore: cast_nullable_to_non_nullable
               as StoreEnum,
     ));
   }
@@ -123,7 +125,8 @@ class __$$StorePriceImplCopyWithImpl<$Res>
 class _$StorePriceImpl extends _StorePrice {
   _$StorePriceImpl(
       {required this.price,
-      @JsonKey(fromJson: StorePrice.readEnum) required this.storeId})
+      @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+      required this.store})
       : super._();
 
   factory _$StorePriceImpl.fromJson(Map<String, dynamic> json) =>
@@ -132,12 +135,12 @@ class _$StorePriceImpl extends _StorePrice {
   @override
   final double price;
   @override
-  @JsonKey(fromJson: StorePrice.readEnum)
-  final StoreEnum storeId;
+  @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+  final StoreEnum store;
 
   @override
   String toString() {
-    return 'StorePrice(price: $price, storeId: $storeId)';
+    return 'StorePrice(price: $price, store: $store)';
   }
 
   @override
@@ -146,12 +149,12 @@ class _$StorePriceImpl extends _StorePrice {
         (other.runtimeType == runtimeType &&
             other is _$StorePriceImpl &&
             (identical(other.price, price) || other.price == price) &&
-            (identical(other.storeId, storeId) || other.storeId == storeId));
+            (identical(other.store, store) || other.store == store));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, price, storeId);
+  int get hashCode => Object.hash(runtimeType, price, store);
 
   /// Create a copy of StorePrice
   /// with the given fields replaced by the non-null parameter values.
@@ -172,8 +175,8 @@ class _$StorePriceImpl extends _StorePrice {
 abstract class _StorePrice extends StorePrice {
   factory _StorePrice(
       {required final double price,
-      @JsonKey(fromJson: StorePrice.readEnum)
-      required final StoreEnum storeId}) = _$StorePriceImpl;
+      @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+      required final StoreEnum store}) = _$StorePriceImpl;
   _StorePrice._() : super._();
 
   factory _StorePrice.fromJson(Map<String, dynamic> json) =
@@ -182,8 +185,8 @@ abstract class _StorePrice extends StorePrice {
   @override
   double get price;
   @override
-  @JsonKey(fromJson: StorePrice.readEnum)
-  StoreEnum get storeId;
+  @JsonKey(fromJson: StorePrice.readEnum, name: "storeId")
+  StoreEnum get store;
 
   /// Create a copy of StorePrice
   /// with the given fields replaced by the non-null parameter values.

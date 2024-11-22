@@ -117,10 +117,10 @@ class GameCard extends StatelessWidget {
                             index: 2,
                           ),
                           const SizedBox(width: 20),
-                          _GameInfo(
-                            game: game,
-                            index: 3,
-                          ),
+                          // _GameInfo(
+                          //   game: game,
+                          //   index: 3,
+                          // ),
                         ],
                       ),
                       Stack(
@@ -174,17 +174,16 @@ class _GameInfo extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return SizedBox();
-    // return Row(children: [
-    //   Image.asset(
-    //     Stores.getStore(game.gameStores[index].store).image,
-    //     height: 20,
-    //     width: 20,
-    //   ),
-    //   Text(
-    //     "  \$${game.gameStores[index].price}",
-    //     style: Theme.of(context).textTheme.labelMedium,
-    //   )
-    // ]);
+    return Row(children: [
+      // Image.asset(
+      //   Stores.getStore(game.gameStores[index].store).image,
+      //   height: 20,
+      //   width: 20,
+      // ),
+      Text(
+        "  \$${game.gameStores[index].price}",
+        style: Theme.of(context).textTheme.labelMedium,
+      )
+    ]);
   }
 }

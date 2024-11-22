@@ -8,8 +8,8 @@ part 'store_price.g.dart';
 class StorePrice with _$StorePrice {
   factory StorePrice({
     required final double price,
-    @JsonKey(fromJson: StorePrice.readEnum)
-    required final StoreEnum storeId,
+    @JsonKey(fromJson: StorePrice.readEnum,name: "storeId")
+    required final StoreEnum store,
   }) = _StorePrice;
 
   StorePrice._();
