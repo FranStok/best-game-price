@@ -26,7 +26,7 @@ class GameCard extends StatelessWidget {
           Text(game.name, style: Theme.of(context).textTheme.labelLarge!),
           const SizedBox(height: 8),
           Image.network(
-            game.image,
+            game.image ?? "",
             height: 200,
           ),
           const SizedBox(height: 8),
@@ -86,16 +86,17 @@ class _GameInfo extends StatelessWidget {
   final int index;
   @override
   Widget build(BuildContext context) {
-    return Row(children: [
-      Image.asset(
-        Stores.getStore(game.storePrices[index].store).image,
-        height: 20,
-        width: 20,
-      ),
-      Text(
-        "  \$${game.storePrices[index].price}",
-        style: Theme.of(context).textTheme.labelMedium,
-      )
-    ]);
+    return SizedBox();
+    // return Row(children: [
+    //   Image.asset(
+    //     Stores.getStore(game.gameStores[index].store).image,
+    //     height: 20,
+    //     width: 20,
+    //   ),
+    //   Text(
+    //     "  \$${game.gameStores[index].price}",
+    //     style: Theme.of(context).textTheme.labelMedium,
+    //   )
+    // ]);
   }
 }

@@ -20,9 +20,11 @@ Game _$GameFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Game {
-  String get image => throw _privateConstructorUsedError;
+  int get gameId => throw _privateConstructorUsedError;
+  String? get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  List<StorePrice> get storePrices => throw _privateConstructorUsedError;
+  List<StorePrice> get gameStores => throw _privateConstructorUsedError;
+  List<Genre> get gameGenres => throw _privateConstructorUsedError;
 
   /// Serializes this Game to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -38,7 +40,12 @@ abstract class $GameCopyWith<$Res> {
   factory $GameCopyWith(Game value, $Res Function(Game) then) =
       _$GameCopyWithImpl<$Res, Game>;
   @useResult
-  $Res call({String image, String name, List<StorePrice> storePrices});
+  $Res call(
+      {int gameId,
+      String? image,
+      String name,
+      List<StorePrice> gameStores,
+      List<Genre> gameGenres});
 }
 
 /// @nodoc
@@ -56,23 +63,33 @@ class _$GameCopyWithImpl<$Res, $Val extends Game>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = null,
+    Object? gameId = null,
+    Object? image = freezed,
     Object? name = null,
-    Object? storePrices = null,
+    Object? gameStores = null,
+    Object? gameGenres = null,
   }) {
     return _then(_value.copyWith(
-      image: null == image
+      gameId: null == gameId
+          ? _value.gameId
+          : gameId // ignore: cast_nullable_to_non_nullable
+              as int,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      storePrices: null == storePrices
-          ? _value.storePrices
-          : storePrices // ignore: cast_nullable_to_non_nullable
+      gameStores: null == gameStores
+          ? _value.gameStores
+          : gameStores // ignore: cast_nullable_to_non_nullable
               as List<StorePrice>,
+      gameGenres: null == gameGenres
+          ? _value.gameGenres
+          : gameGenres // ignore: cast_nullable_to_non_nullable
+              as List<Genre>,
     ) as $Val);
   }
 }
@@ -84,7 +101,12 @@ abstract class _$$GameImplCopyWith<$Res> implements $GameCopyWith<$Res> {
       __$$GameImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String image, String name, List<StorePrice> storePrices});
+  $Res call(
+      {int gameId,
+      String? image,
+      String name,
+      List<StorePrice> gameStores,
+      List<Genre> gameGenres});
 }
 
 /// @nodoc
@@ -99,23 +121,33 @@ class __$$GameImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? image = null,
+    Object? gameId = null,
+    Object? image = freezed,
     Object? name = null,
-    Object? storePrices = null,
+    Object? gameStores = null,
+    Object? gameGenres = null,
   }) {
     return _then(_$GameImpl(
-      image: null == image
+      gameId: null == gameId
+          ? _value.gameId
+          : gameId // ignore: cast_nullable_to_non_nullable
+              as int,
+      image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      storePrices: null == storePrices
-          ? _value._storePrices
-          : storePrices // ignore: cast_nullable_to_non_nullable
+      gameStores: null == gameStores
+          ? _value._gameStores
+          : gameStores // ignore: cast_nullable_to_non_nullable
               as List<StorePrice>,
+      gameGenres: null == gameGenres
+          ? _value._gameGenres
+          : gameGenres // ignore: cast_nullable_to_non_nullable
+              as List<Genre>,
     ));
   }
 }
@@ -124,29 +156,42 @@ class __$$GameImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$GameImpl implements _Game {
   _$GameImpl(
-      {required this.image,
+      {required this.gameId,
+      this.image,
       required this.name,
-      required final List<StorePrice> storePrices})
-      : _storePrices = storePrices;
+      required final List<StorePrice> gameStores,
+      required final List<Genre> gameGenres})
+      : _gameStores = gameStores,
+        _gameGenres = gameGenres;
 
   factory _$GameImpl.fromJson(Map<String, dynamic> json) =>
       _$$GameImplFromJson(json);
 
   @override
-  final String image;
+  final int gameId;
+  @override
+  final String? image;
   @override
   final String name;
-  final List<StorePrice> _storePrices;
+  final List<StorePrice> _gameStores;
   @override
-  List<StorePrice> get storePrices {
-    if (_storePrices is EqualUnmodifiableListView) return _storePrices;
+  List<StorePrice> get gameStores {
+    if (_gameStores is EqualUnmodifiableListView) return _gameStores;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_storePrices);
+    return EqualUnmodifiableListView(_gameStores);
+  }
+
+  final List<Genre> _gameGenres;
+  @override
+  List<Genre> get gameGenres {
+    if (_gameGenres is EqualUnmodifiableListView) return _gameGenres;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_gameGenres);
   }
 
   @override
   String toString() {
-    return 'Game(image: $image, name: $name, storePrices: $storePrices)';
+    return 'Game(gameId: $gameId, image: $image, name: $name, gameStores: $gameStores, gameGenres: $gameGenres)';
   }
 
   @override
@@ -154,16 +199,24 @@ class _$GameImpl implements _Game {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameImpl &&
+            (identical(other.gameId, gameId) || other.gameId == gameId) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
-                .equals(other._storePrices, _storePrices));
+                .equals(other._gameStores, _gameStores) &&
+            const DeepCollectionEquality()
+                .equals(other._gameGenres, _gameGenres));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, image, name,
-      const DeepCollectionEquality().hash(_storePrices));
+  int get hashCode => Object.hash(
+      runtimeType,
+      gameId,
+      image,
+      name,
+      const DeepCollectionEquality().hash(_gameStores),
+      const DeepCollectionEquality().hash(_gameGenres));
 
   /// Create a copy of Game
   /// with the given fields replaced by the non-null parameter values.
@@ -183,190 +236,29 @@ class _$GameImpl implements _Game {
 
 abstract class _Game implements Game {
   factory _Game(
-      {required final String image,
+      {required final int gameId,
+      final String? image,
       required final String name,
-      required final List<StorePrice> storePrices}) = _$GameImpl;
+      required final List<StorePrice> gameStores,
+      required final List<Genre> gameGenres}) = _$GameImpl;
 
   factory _Game.fromJson(Map<String, dynamic> json) = _$GameImpl.fromJson;
 
   @override
-  String get image;
+  int get gameId;
+  @override
+  String? get image;
   @override
   String get name;
   @override
-  List<StorePrice> get storePrices;
+  List<StorePrice> get gameStores;
+  @override
+  List<Genre> get gameGenres;
 
   /// Create a copy of Game
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GameImplCopyWith<_$GameImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-StorePrice _$StorePriceFromJson(Map<String, dynamic> json) {
-  return _StorePrice.fromJson(json);
-}
-
-/// @nodoc
-mixin _$StorePrice {
-  double get price => throw _privateConstructorUsedError;
-  StoreEnum get store => throw _privateConstructorUsedError;
-
-  /// Serializes this StorePrice to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of StorePrice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $StorePriceCopyWith<StorePrice> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $StorePriceCopyWith<$Res> {
-  factory $StorePriceCopyWith(
-          StorePrice value, $Res Function(StorePrice) then) =
-      _$StorePriceCopyWithImpl<$Res, StorePrice>;
-  @useResult
-  $Res call({double price, StoreEnum store});
-}
-
-/// @nodoc
-class _$StorePriceCopyWithImpl<$Res, $Val extends StorePrice>
-    implements $StorePriceCopyWith<$Res> {
-  _$StorePriceCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of StorePrice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? price = null,
-    Object? store = null,
-  }) {
-    return _then(_value.copyWith(
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      store: null == store
-          ? _value.store
-          : store // ignore: cast_nullable_to_non_nullable
-              as StoreEnum,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$StorePriceImplCopyWith<$Res>
-    implements $StorePriceCopyWith<$Res> {
-  factory _$$StorePriceImplCopyWith(
-          _$StorePriceImpl value, $Res Function(_$StorePriceImpl) then) =
-      __$$StorePriceImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({double price, StoreEnum store});
-}
-
-/// @nodoc
-class __$$StorePriceImplCopyWithImpl<$Res>
-    extends _$StorePriceCopyWithImpl<$Res, _$StorePriceImpl>
-    implements _$$StorePriceImplCopyWith<$Res> {
-  __$$StorePriceImplCopyWithImpl(
-      _$StorePriceImpl _value, $Res Function(_$StorePriceImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of StorePrice
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? price = null,
-    Object? store = null,
-  }) {
-    return _then(_$StorePriceImpl(
-      price: null == price
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
-              as double,
-      store: null == store
-          ? _value.store
-          : store // ignore: cast_nullable_to_non_nullable
-              as StoreEnum,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$StorePriceImpl implements _StorePrice {
-  _$StorePriceImpl({required this.price, required this.store});
-
-  factory _$StorePriceImpl.fromJson(Map<String, dynamic> json) =>
-      _$$StorePriceImplFromJson(json);
-
-  @override
-  final double price;
-  @override
-  final StoreEnum store;
-
-  @override
-  String toString() {
-    return 'StorePrice(price: $price, store: $store)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$StorePriceImpl &&
-            (identical(other.price, price) || other.price == price) &&
-            (identical(other.store, store) || other.store == store));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, price, store);
-
-  /// Create a copy of StorePrice
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$StorePriceImplCopyWith<_$StorePriceImpl> get copyWith =>
-      __$$StorePriceImplCopyWithImpl<_$StorePriceImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$StorePriceImplToJson(
-      this,
-    );
-  }
-}
-
-abstract class _StorePrice implements StorePrice {
-  factory _StorePrice(
-      {required final double price,
-      required final StoreEnum store}) = _$StorePriceImpl;
-
-  factory _StorePrice.fromJson(Map<String, dynamic> json) =
-      _$StorePriceImpl.fromJson;
-
-  @override
-  double get price;
-  @override
-  StoreEnum get store;
-
-  /// Create a copy of StorePrice
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$StorePriceImplCopyWith<_$StorePriceImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

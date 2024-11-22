@@ -4,7 +4,7 @@ class DioInit {
   static DioInit? _instance;
 
   factory DioInit() {
-    _instance ??= DioInit._internal(Dio());
+    _instance ??= DioInit._internal(Dio(BaseOptions(contentType: 'application/json')));
     return _instance!;
   }
 
