@@ -1,12 +1,25 @@
+import 'package:flutter/foundation.dart';
 
 class Stores {
-  static const steam = Store('Steam', "assets/images/steam_logo.png", 1, StoreEnum.steam);
-  static const epic =
-      Store('Epic Store', "assets/images/epic_logo.png", 2, StoreEnum.epic);
-  static const microsoft =
-      Store('Microsoft store', "assets/images/microsoft_logo.png", 3, StoreEnum.microsoft);
-  static const play =
-      Store('Play Store', "assets/images/play_logo.png", 4, StoreEnum.play);
+  static const steam =
+      Store('Steam', "assets/images/steam_logo.png", 1, StoreEnum.steam);
+  static const epic = Store(
+      'Epic Store',
+      (kReleaseMode) ? "assets/images/epic_logo.png" : "images/epic_logo.png",
+      2,
+      StoreEnum.epic);
+  static const microsoft = Store(
+      'Microsoft store',
+      (kReleaseMode)
+          ? "assets/images/microsoft_logo.png"
+          : "images/microsoft_logo.png",
+      3,
+      StoreEnum.microsoft);
+  static const play = Store(
+      'Play Store',
+      (kReleaseMode) ? "assets/images/play_logo.png" : "images/play_logo.png",
+      4,
+      StoreEnum.play);
 
   static Store getStore(StoreEnum storeEnum) {
     switch (storeEnum) {
