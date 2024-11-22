@@ -1,25 +1,40 @@
 import 'dart:math';
 
+import 'package:arquitectura/core/service_locator/service_locator.dart';
 import 'package:arquitectura/core/themes/app_theme.dart';
 import 'package:arquitectura/core/util/stores.dart';
 import 'package:arquitectura/domain/models/game.dart';
 import 'package:arquitectura/domain/models/store_price.dart';
 import 'package:flutter/material.dart';
 
-class GameCard extends StatelessWidget {
+class GameCard extends StatefulWidget {
   const GameCard({super.key, required this.game});
 
   final Game game;
 
+  @override
+  State<GameCard> createState() => _GameCardState();
+}
+
+class _GameCardState extends State<GameCard> {
   StorePrice getCheapestPrice() {
-    return game.gameStores
+    return widget.game.gameStores
         .reduce((current, next) => current.price < next.price ? current : next);
   }
 
+int priceSteam=0;
+@override void initState() {
+    super.initState();
+
+    getPrice(widget.game.name).then((price){
+      setState(() {
+        priceSteam=price;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final cheapestPrice = getCheapestPrice();
-
     return ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Container(
@@ -44,7 +59,7 @@ class GameCard extends StatelessWidget {
                       topLeft: Radius.circular(10),
                       bottomLeft: Radius.circular(10)),
                   child: Image.network(
-                    "https://corsproxy.io/?${game.image!}",
+                    "https://corsproxy.io/?${widget.game.image!}",
                     errorBuilder: (context, error, stackTrace) => const Center(child: Text("La imagen no cargo correctamente")),
                     fit: BoxFit.fill,
                   ),
@@ -57,7 +72,7 @@ class GameCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(height: 16),
-                      Text(game.name,
+                      Text(widget.game.name,
                           textAlign: TextAlign.center,
                           style: Theme.of(context)
                               .textTheme
@@ -65,7 +80,7 @@ class GameCard extends StatelessWidget {
                               .copyWith(color: Colors.white)),
                       const SizedBox(height: 8),
                       Column(
-                          children: game.gameGenres
+                          children: widget.game.gameGenres
                               .map((item) => Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: Container(
@@ -94,12 +109,12 @@ class GameCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _GameInfo(
-                            game: game,
+                            game: widget.game,
                             index: 0,
                           ),
                           const SizedBox(width: 20),
                           _GameInfo(
-                            game: game,
+                            game: widget.game,
                             index: 1,
                           ),
                         ],
@@ -109,17 +124,21 @@ class GameCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _GameInfo(
-                            game: game,
+                            game: widget.game,
                             index: 2,
                           ),
                           const SizedBox(width: 20),
                           // _GameInfo(
-                          //   game: game,
+                          //   game: widget.game,
                           //   index: 3,
                           // ),
-                             Text(
-                          "  \$${(game.gameStores[2].price * (Random().nextInt(1) + 0.5)).toStringAsFixed(2)}",
-                          style: Theme.of(context).textTheme.labelMedium,)
+                          Text(
+                          "  \$$priceSteam",
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
+                          //  Text(
+                          // "  \$${(widget.game.gameStores[2].price * (Random().nextInt(1) + 0.5)).toStringAsFixed(2)}",
+                          // style: Theme.of(context).textTheme.labelMedium,
                         ],
                       ),
                       Stack(
@@ -162,7 +181,7 @@ class GameCard extends StatelessWidget {
   }
 }
 
-class _GameInfo extends StatelessWidget {
+class _GameInfo extends StatefulWidget {
   const _GameInfo({
     super.key,
     required this.game,
@@ -171,18 +190,49 @@ class _GameInfo extends StatelessWidget {
 
   final Game game;
   final int index;
+
+  @override
+  State<_GameInfo> createState() => _GameInfoState();
+}
+
+class _GameInfoState extends State<_GameInfo> {
+  int steamPrice=0;
+
   @override
   Widget build(BuildContext context) {
+    getPrice(widget.game.name).then((price){
+      setState(() {
+        steamPrice=price;
+      });
+    });
     return Row(children: [
-      Image.asset(
-        Stores.getStore(game.gameStores[index].store).image,
-        height: 20,
-        width: 20,
-      ),
+      // Image.asset(
+      //   Stores.getStore(game.gameStores[index].store).image,
+      //   height: 20,
+      //   width: 20,
+      // ),
       Text(
-        "  \$${game.gameStores[index].price}",
+        "  \$${widget.game.gameStores[widget.index].price}",
         style: Theme.of(context).textTheme.labelMedium,
-      )
+      ),
     ]);
   }
+
 }
+
+  Future <int> getPrice (String name) async {
+        final response = await ServiceLocator().steamService.getGames();
+        final filteredGameList = response.applist.apps.where((x) => x.name.toLowerCase().contains(name.toLowerCase())).toList();
+        final limitedGameList = filteredGameList.getRange(0, (filteredGameList.length <= 1) ? filteredGameList.length : 1).toList();
+        final idsString = limitedGameList.map((item) => item.appid).join(',');
+        final gamesDetail = await ServiceLocator().steamService.getGameDetail(idsString);
+        for (var game in limitedGameList) {
+          print(game.appid);
+          print(game.name);
+          if (gamesDetail.response.data['${game.appid}']['data'] != null && gamesDetail.response.data['${game.appid}']['data'].length > 0) {
+            game.final_price = gamesDetail.response.data['${game.appid}']['data']['price_overview']['final'];
+            return game.final_price;
+          }
+        }
+        return 0;
+  }
