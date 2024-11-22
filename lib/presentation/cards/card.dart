@@ -176,11 +176,11 @@ class _GameInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      // Image.asset(
-      //   Stores.getStore(game.gameStores[index].store).image,
-      //   height: 20,
-      //   width: 20,
-      // ),
+      Image.asset(
+        Stores.getStore(game.gameStores[index].store).image,
+        height: 20,
+        width: 20,
+      ),
       Text(
         "  \$${game.gameStores[index].price}",
         style: Theme.of(context).textTheme.labelMedium,

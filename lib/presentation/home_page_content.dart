@@ -4,6 +4,7 @@ import 'package:arquitectura/core/service_locator/service_locator.dart';
 import 'package:arquitectura/core/util/result.dart';
 import 'package:arquitectura/core/util/stores.dart';
 import 'package:arquitectura/domain/models/game.dart';
+import 'package:arquitectura/domain/models/store_price.dart';
 import 'package:arquitectura/domain/responses/custom_game_response.dart';
 import 'package:arquitectura/presentation/cards/card.dart';
 import 'package:arquitectura/presentation/games_cubit/games_cubit.dart';
@@ -62,19 +63,35 @@ class _HomePageContentState extends State<HomePageContent> {
   void _scrollLeft() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
-    _pageController.previousPage(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
+    if (_imagenActual == 0) {
+      // Si estamos en la primera página, ir a la última
+      _pageController.jumpToPage(_games.length - 1);
+      setState(() {
+        _imagenActual = _games.length - 1;
+      });
+    } else {
+      _pageController.previousPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   void _scrollRight() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 5), _periodicMove);
-    _pageController.nextPage(
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-    );
+    if (_imagenActual == _games.length - 1) {
+      // Si estamos en la última página, volver a la primera
+      _pageController.jumpToPage(0);
+      setState(() {
+        _imagenActual = 0;
+      });
+    } else {
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override
@@ -102,7 +119,7 @@ class _HomePageContentState extends State<HomePageContent> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 10, left: 10, right: 10, bottom: 20),
+                    top: 20, left: 10, right: 10, bottom: 20),
                 child: SizedBox(
                   height: 355,
                   width: 700,
@@ -139,7 +156,7 @@ class _HomePageContentState extends State<HomePageContent> {
                   duration: const Duration(milliseconds: 300),
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   width: _imagenActual == index ? 12 : 8,
-                  height: _imagenActual == index ? 12 :8,
+                  height: _imagenActual == index ? 12 : 8,
                   decoration: BoxDecoration(
                     color: _imagenActual == index ? Colors.white : Colors.grey,
                     shape: BoxShape.circle,
@@ -151,7 +168,7 @@ class _HomePageContentState extends State<HomePageContent> {
           const SizedBox(height: 30),
           Text('TODOS LOS GENEROS',
               style: Theme.of(context).textTheme.labelMedium!),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           //CARDS POR GENERO
           Wrap(
             alignment: WrapAlignment.center,
@@ -172,22 +189,110 @@ class _TinyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StorePrice getCheapestPrice() {
+      return game.gameStores.reduce(
+        (current, next) => current.price < next.price ? current : next,
+      );
+    }
+
     return Container(
       color: Theme.of(context).colorScheme.primary,
-      child: Column(
-        children: [
-          Image.network(
-            game.image!,
-            fit: BoxFit.fill,
-            errorBuilder: (context, error, stackTrace) => SizedBox(height: 250,width: 450,),
-            height: 250,
-            width: 450,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(game.name),
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(
+              game.image!,
+              fit: BoxFit.fill,
+              errorBuilder: (context, error, stackTrace) => const SizedBox(
+                height: 250,
+                width: 450,
+              ),
+              height: 250,
+              width: 450,
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Text(game.name.toUpperCase()),
+            ),
+            const SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 5,
+                        spreadRadius: 1,
+                      ),
+                    ]),
+                child: Text(
+                  "\$${getCheapestPrice().price}",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelMedium!
+                      .copyWith(color: Colors.white),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.only(left: 15),
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                Image.asset(
+                  Stores.getStore(game.gameStores[0].store).image,
+                  height: 20,
+                  width: 20,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  "\$${game.gameStores[0].price}",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                const SizedBox(width: 30),
+                Image.asset(
+                  Stores.getStore(game.gameStores[1].store).image,
+                  height: 20,
+                  width: 20,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  "\$${game.gameStores[1].price}",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                const SizedBox(width: 30),
+                Image.asset(
+                  Stores.getStore(game.gameStores[2].store).image,
+                  height: 20,
+                  width: 20,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  "\$${game.gameStores[2].price}",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+                const SizedBox(width: 30),
+                // Image.asset(
+                //   Stores.getStore(game.gameStores[3].store).image,
+                //   height: 20,
+                //   width: 20,
+                // ),
+                // const SizedBox(width: 12),
+                // Text(
+                //   "\$${game.gameStores[3].price}",
+                //   style: Theme.of(context).textTheme.labelMedium,
+                // ),
+              ]),
+            ),
+            
+          ],
+        ),
       ),
     );
   }
