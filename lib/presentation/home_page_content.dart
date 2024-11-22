@@ -17,7 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class HomePageContent extends StatefulWidget {
   const HomePageContent({
     super.key,
-    required this.games,  this.selectedGenre, this.search,
+    required this.games,
+    this.selectedGenre,
+    this.search,
   });
 
   @override
@@ -26,7 +28,6 @@ class HomePageContent extends StatefulWidget {
   final List<Game> games;
   final Genre? selectedGenre;
   final String? search;
-
 }
 
 class _HomePageContentState extends State<HomePageContent> {
@@ -184,11 +185,11 @@ class _HomePageContentState extends State<HomePageContent> {
             children: _games
                 .where((game) =>
                     (widget.selectedGenre == null ||
-                    game.gameGenres.contains(widget.selectedGenre)) &&
-                        (widget.search == null ||
-                            game.name
-                                .toLowerCase()
-                                .contains(widget.search!.toLowerCase())))
+                        game.gameGenres.contains(widget.selectedGenre)) &&
+                    (widget.search == null ||
+                        game.name
+                            .toLowerCase()
+                            .contains(widget.search!.toLowerCase())))
                 .map((game) => _TinyCard(game: game))
                 .toList(),
           )
@@ -221,15 +222,11 @@ class _TinyCard extends StatelessWidget {
             Image.network(
               game.image!,
               fit: BoxFit.fill,
-              errorBuilder: (context, error, stackTrace) => const const SizedBox(
-                
-              height: 250,
-                
-              width: 450,
-              
-              child:
-                  Center(child: Text("La imagen no cargo correctamente")),
-            ),
+              errorBuilder: (context, error, stackTrace) => const SizedBox(
+                height: 250,
+                width: 450,
+                child: Center(child: Text("La imagen no cargo correctamente")),
+              ),
               height: 250,
               width: 450,
             ),
@@ -242,7 +239,8 @@ class _TinyCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.onSurface,
                     borderRadius: BorderRadius.circular(8),
@@ -311,7 +309,6 @@ class _TinyCard extends StatelessWidget {
                 // ),
               ]),
             ),
-            
           ],
         ),
       ),
