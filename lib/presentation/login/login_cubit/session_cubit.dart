@@ -24,8 +24,13 @@ class SessionCubit extends Cubit<SessionState> {
     emit(state.copyWith(isLoading: true));
     final request = await _authRepository.registration(mail, password);
     request.onResult(left: (error) {
-      emit(state.copyWith(
-          userCredentials: null, requestError: error, isLoading: false));
+      if (error.code == 'email-already-in-use') {
+        emit(state.copyWith(
+            userCredentials: null, requestError: error, isLoading: false));
+      } else {
+        emit(state.copyWith(
+            userCredentials: null, requestError: error, isLoading: false));
+      }
     }, right: (response) {
       emit(state.copyWith(
           userCredentials: response, requestError: null, isLoading: false));

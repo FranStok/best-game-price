@@ -68,12 +68,25 @@ class _FormState extends State<_Form> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<SessionCubit, SessionState>(
-      listenWhen: (previous, current) => previous.requestError!=current.requestError,
+      listenWhen: (previous, current) =>
+          previous.requestError != current.requestError,
       listener: (context, state) {
-        if(state.requestError!=null && state.requestError!.code=="invalid-credential"){
-          _formKeyLogin.currentState!.fields['mail']!.invalidate("Credenciales invalidas");
-          _formKeyLogin.currentState!.fields['password']!.invalidate("Credenciales invalidas");
+        if (state.requestError != null &&
+            state.requestError!.code == "invalid-credential") {
+          _formKeyLogin.currentState!.fields['mail']!
+              .invalidate("Credenciales invalidas");
+          _formKeyLogin.currentState!.fields['password']!
+              .invalidate("Credenciales invalidas");
         }
+
+        if (state.requestError != null) {
+          if (state.requestError!.code == 'email-already-in-use') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Este correo ya está registrado")),
+            );
+          }
+        }
+
         BlocProvider.of<SessionCubit>(context).changeErrorField(null);
       },
       child: BlocConsumer<SessionCubit, SessionState>(
